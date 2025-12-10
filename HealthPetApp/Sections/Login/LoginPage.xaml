@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AptiJobs.Sections.Login.LoginPage"
+             NavigationPage.HasNavigationBar="False"
+             >
+    <Grid
+        RowDefinitions="*, auto"
+        ColumnDefinitions="*"
+        >
+        <VerticalStackLayout
+            Grid.Row="0"
+            Grid.Column="0"
+        
+        >
+        <Image
+            Margin="0,100,0,0"
+            Source="logo.png"
+            Aspect="AspectFit"
+            HeightRequest="200"
+            />
+        <Label
+            Text="Humanamente possível"
+            HorizontalOptions="Center"
+            FontAttributes="Bold"
+            TextColor="#eb2863"
+            FontSize="Subtitle"
+            Margin="0,10,0,0"
+            />
+        <Label
+            Style="{x:StaticResource StyleLabelTitle}"
+            Text="Login"
+            FontAttributes="Bold"
+            
+            Margin="0,20"
+            />
+
+        <Label 
+            Style="{x:StaticResource StyleLabelForm}"
+            Text="Email"
+            />
+        <Entry
+            Keyboard="Email"
+            Placeholder="exemplo@email.com.br"
+            />
+
+        <Label
+            Style="{x:StaticResource StyleLabelForm}"
+            Text="Senha"
+            Margin="0,10,0,0"
+            />
+        <Entry
+            Placeholder="*******"
+            Keyboard="Password"
+            
+            />
+        <Label
+            Text="Esqueceu sua senha?"
+            HorizontalOptions="End"
+            Margin="0,0,0,15"
+            />
+
+        <Button
+            Style="{x:StaticResource StyleButton}"
+            Text="Login"
+            Padding="0,15"
+            Margin="0,10,0,0"
+            Command="{Binding LoginCommand}"
+            />
+
+        <Label
+            Margin="0,20"
+            Text="Ou acesse com"
+            HorizontalOptions="Center"
+            />
+
+        <HorizontalStackLayout
+            HorizontalOptions="Center"
+            >
+
+            <Image Source="apple.png"
+                   HeightRequest="40"
+                   />
+            <Image Source="google.png"
+                Margin="15,0"
+                HeightRequest="36"
+                >
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding LoginGoogleCommand}" />
+                </Image.GestureRecognizers>
+            </Image>
+            <Image Source="fb.png"
+                HeightRequest="36"
+            >
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding LoginLinkedinCommand}" />
+                </Image.GestureRecognizers>
+            </Image>
+        </HorizontalStackLayout>
+
+
+    </VerticalStackLayout>
+    <Label
+        Grid.Row="1"
+        Grid.Column="0"
+    FontSize="Small"
+    Margin="0,20"
+    >
+        <Label.FormattedText>
+            <FormattedString>
+                <Span Text="Não possui conta? " />
+                <Span Text="Cadastre-se" TextColor="{x:StaticResource Primary }" FontAttributes="Bold" />
+            </FormattedString>
+        </Label.FormattedText>
+        <Label.GestureRecognizers>
+            <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding CadastroCommand}" />
+        </Label.GestureRecognizers>
+    </Label>
+    </Grid>
+</ContentPage>
