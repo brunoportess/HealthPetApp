@@ -14,34 +14,51 @@ sealed class DialogService
 
     private DialogService() { }
 
+    private Page? GetCurrentPage()
+    {
+        // For single-window applications, use Windows[0].Page
+        return Application.Current?.Windows.FirstOrDefault()?.Page;
+    }
+
     public Task DisplayAlert(Exception ex)
     {
+        var page = GetCurrentPage();
+        if (page == null)
+            return Task.CompletedTask;
+
         if (ex.Message.ToLower().Contains("no such host"))
-            return Application.Current!.MainPage!.DisplayAlert("Ops..", "Parece que você não está conectado à internet, verifique sua conexão e/ou tente novamente mais tarde!", "Ok");
+            return page.DisplayAlertAsync("Ops..", "Parece que você não está conectado à internet, verifique sua conexão e/ou tente novamente mais tarde!", "Ok");
         else if (ex.Message.ToLower().Contains("sequence"))
-            return Application.Current!.MainPage!.DisplayAlert("Ops..", "Ocorreu um erro ao processar a sua operação, verifique sua conexão com a internet e/ou tente novamente mais tarde, se o problema persistir, entre em contato com nossa central de atendimento.", "Ok");
+            return page.DisplayAlertAsync("Ops..", "Ocorreu um erro ao processar a sua operação, verifique sua conexão com a internet e/ou tente novamente mais tarde, se o problema persistir, entre em contato com nossa central de atendimento.", "Ok");
         else
         {
             //DiagnosticsService.Current.TrackError(ex);
 
             return ex switch
             {
-                InvalidOperationException invalidOperationException => Application.Current!.MainPage!.DisplayAlert("Ops..", invalidOperationException.Message, "Ok"),
-                ArgumentException argumentException => App.Current!.MainPage!.DisplayAlert("Atenção!", argumentException.Message, "Ok"),
-                TaskCanceledException taskCanceledException => App.Current!.MainPage!.DisplayAlert("Operação cancelada", "Operação cancelada pelo usuário", "Ok"),
-                _ => App.Current!.MainPage!.DisplayAlert("Atenção!", ex.Message, "Ok"),
+                InvalidOperationException invalidOperationException => page.DisplayAlertAsync("Ops..", invalidOperationException.Message, "Ok"),
+                ArgumentException argumentException => page.DisplayAlertAsync("Atenção!", argumentException.Message, "Ok"),
+                TaskCanceledException taskCanceledException => page.DisplayAlertAsync("Operação cancelada", "Operação cancelada pelo usuário", "Ok"),
+                _ => page.DisplayAlertAsync("Atenção!", ex.Message, "Ok"),
             };
-
         }
     }
 
     public Task<bool> DisplayAlert(string title, string message, string okMessage, string cancelMessage)
     {
-        return App.Current!.MainPage!.DisplayAlert(title, message, okMessage, cancelMessage);
+        var page = GetCurrentPage();
+        if (page == null)
+            return Task.FromResult(false);
+
+        return page.DisplayAlertAsync(title, message, okMessage, cancelMessage);
     }
 
     public Task DisplayAlert(string title, string message, string okMessage = "OK")
     {
-        return App.Current!.MainPage!.DisplayAlert(title, message, okMessage);
+        var page = GetCurrentPage();
+        if (page == null)
+            return Task.CompletedTask;
+
+        return page.DisplayAlertAsync(title, message, okMessage);
     }
 }
