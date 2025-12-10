@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthPetApp.Sections.Template.HeaderBackComponent">
+    <Grid 
+        Padding="10,15"
+        ColumnDefinitions="Auto, *"
+        HeightRequest="60">
+
+        <!-- BOTÃO VOLTAR -->
+        <Border
+            Grid.Column="0"
+            WidthRequest="40"
+            HeightRequest="40"
+            BackgroundColor="#FFFFFF"
+            StrokeThickness="0"
+            StrokeShape="RoundRectangle 20"
+            HorizontalOptions="Start"
+            VerticalOptions="Center">
+
+            <Label 
+                Text=""
+                Style="{StaticResource MaterialIcon}"
+                FontSize="22"
+                HorizontalTextAlignment="Center"
+                VerticalTextAlignment="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnBackTapped"/>
+                </Label.GestureRecognizers>
+            </Label>
+        </Border>
+
+        <!-- TÍTULO -->
+        <Label 
+            Grid.Column="1"
+            Text="{Binding Title}"
+            FontSize="20"
+            FontAttributes="Bold"
+            VerticalTextAlignment="Center"
+            HorizontalOptions="Center"
+            TextColor="#222"/>
+
+    </Grid>
+</ContentView>

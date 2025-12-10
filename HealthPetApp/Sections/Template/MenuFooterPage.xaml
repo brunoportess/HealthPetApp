@@ -1,0 +1,96 @@
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthPetApp.Sections.Template.MenuFooterPage"
+             xmlns:icons="clr-namespace:HealthPetApp.Extensions"
+             >
+
+    <Border
+        BackgroundColor="#fff"
+        StrokeThickness="0"
+        HorizontalOptions="Fill"
+        VerticalOptions="End"
+        Padding="0"
+        >
+
+        <Grid Padding="0"
+              ColumnSpacing="0"
+              RowSpacing="0">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- HOME -->
+            <Grid Grid.Column="0">
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="GoToHomePage"/>
+                </Grid.GestureRecognizers>
+
+                <VerticalStackLayout HorizontalOptions="Center" Spacing="4" Margin="0,8">
+                    <Image 
+                        x:Name="HomeIcon"
+                        Source="{FontImageSource Glyph={x:Static icons:MaterialIconAlias.Home}, 
+                        FontFamily=MaterialIcon, 
+                        Color=#909090,
+                        Size=32}" />
+                    <Label x:Name="HomeText" Text="Home" FontSize="11" TextColor="#909090"/>
+                </VerticalStackLayout>
+            </Grid>
+
+            <!-- PETS -->
+            <Grid Grid.Column="1">
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="GoToStudentsPage"/>
+                </Grid.GestureRecognizers>
+
+                <VerticalStackLayout HorizontalOptions="Center" Spacing="4" Margin="0,8">
+                    <Image 
+                        x:Name="PetIcon"
+                        Source="{FontImageSource Glyph={x:Static icons:MaterialIconAlias.Pets}, 
+                        FontFamily=MaterialIcon, 
+                        Color=#909090,
+                        Size=32}" />
+                    <Label x:Name="PetText" Text="Pets" FontSize="11" TextColor="#909090"/>
+                </VerticalStackLayout>
+            </Grid>
+
+            
+            <Grid Grid.Column="2">
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="GoToFormulasPage"/>
+                </Grid.GestureRecognizers>
+
+                <VerticalStackLayout HorizontalOptions="Center" Spacing="4" Margin="0,8">
+                    <Image 
+                        x:Name="SearchIcon"
+                        Source="{FontImageSource Glyph={x:Static icons:MaterialIconAlias.Search}, 
+                        FontFamily=MaterialIcon, 
+                        Color=#909090,
+                        Size=32}" />
+                    <Label x:Name="SearchText" Text="Fórmulas" FontSize="11" TextColor="#909090"/>
+                </VerticalStackLayout>
+            </Grid>
+
+            
+            <Grid Grid.Column="3">
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="GoToConfigPage"/>
+                </Grid.GestureRecognizers>
+
+                <VerticalStackLayout HorizontalOptions="Center" Spacing="4" Margin="0,8">
+                    <Image 
+                        x:Name="ProfileIcon"
+                        Source="{FontImageSource Glyph={x:Static icons:MaterialIconAlias.Person}, 
+                        FontFamily=MaterialIcon, 
+                        Color=#909090,
+                        Size=32}" />
+                    <Label Text="Profile"  x:Name="ProfileText" FontSize="11" TextColor="#909090"/>
+                </VerticalStackLayout>
+            </Grid>
+
+        </Grid>
+    </Border>
+</ContentView>

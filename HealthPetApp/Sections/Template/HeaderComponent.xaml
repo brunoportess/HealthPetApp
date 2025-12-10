@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthPetApp.Sections.Template.HeaderComponent"
+             xmlns:baseViewModel="clr-namespace:HealthPetApp"
+             x:DataType="baseViewModel:BasePageViewModel"
+             xmlns:icons="clr-namespace:HealthPetApp.Extensions"
+             BackgroundColor="Transparent"
+             >
+    <Border
+        BackgroundColor="Transparent"
+        StrokeThickness="0"
+        StrokeShape="RoundRectangle 0,0,25,25"
+        Padding="20,10"
+        Shadow="{OnPlatform Android='10,10,0,0', iOS='0'}">
+
+        <Grid ColumnDefinitions="Auto,*,Auto"
+              ColumnSpacing="15"
+              VerticalOptions="Center">
+
+            <!-- ÍCONE ESQUERDO -->
+            <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
+                
+                <VerticalStackLayout Spacing="2">
+                    <Label  
+                        x:Name="UserNameLabel"
+                        Text="Hi Bruno"
+                        FontSize="20"
+                        FontAttributes="Bold"
+                        TextColor="#1C1C1C"/>
+                    <HorizontalStackLayout Spacing="4">
+                        <Image Source="location_icon.png" HeightRequest="14"/>
+                        <Label 
+                            x:Name="LocationLabel"
+                            Text="Home Pets"
+                            FontSize="13"
+                            TextColor="#7A7A7A"/>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </HorizontalStackLayout>
+
+            <!-- ÍCONES DIREITA -->
+            <HorizontalStackLayout Spacing="18" Grid.Column="2" VerticalOptions="Center">
+                <Image 
+    Source="{FontImageSource Glyph={x:Static icons:MaterialIconAlias.Notifications_unread}, 
+    FontFamily=MaterialIcon, 
+    Color=#909090,
+    Size=26}" />
+                <Border
+                    BackgroundColor="#E5F6FF"
+                    WidthRequest="40"
+                    HeightRequest="40"
+                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 20">
+                    <Image 
+                        x:Name="AvatarImage"
+    Source="{FontImageSource Glyph={x:Static icons:MaterialIconAlias.Face}, 
+    FontFamily=MaterialIcon, 
+    Color=#909090,
+    Size=32}" />
+                </Border>
+            </HorizontalStackLayout>
+
+        </Grid>
+    </Border>
+</ContentView>

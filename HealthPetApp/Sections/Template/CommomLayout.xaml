@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             BackgroundColor="#e0f5fe"
+             xmlns:components="clr-namespace:HealthPetApp.Sections.Template"
+             xmlns:icons="clr-namespace:HealthPetApp.Extensions"
+             x:Class="HealthPetApp.Sections.Template.CommomLayout"
+             NavigationPage.HasNavigationBar="False">
+    <Grid 
+        
+        RowDefinitions="Auto,*,Auto">
+        <components:HeaderComponent
+            UserName="Hi Bruno"
+            Location="Ipatinga - MG"
+            Avatar="meu_avatar.png"
+            Grid.Row="0"/>
+
+        <!-- Conteúdo que será substituído em cada tela -->
+        <ContentView Padding="20,10" x:Name="ContentContainerLayout" Grid.Row="1"/>
+
+
+        <components:MenuFooterPage 
+            x:Name="MenuFooterPageControl"
+            Margin="-20,0,-20,0"
+            BackgroundColor="#fff" 
+            Grid.Row="2"
+            />
+    </Grid>
+</ContentView>
