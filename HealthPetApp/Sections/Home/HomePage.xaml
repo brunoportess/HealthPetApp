@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="HealthPetApp.Sections.Home.HomePage"
+             xmlns:vm="clr-namespace:HealthPetApp.Sections.Home"
+             x:DataType="vm:HomePageViewModel"
+             xmlns:local="clr-namespace:HealthPetApp.Sections.Template"
+             NavigationPage.HasNavigationBar="False"
+             xmlns:icons="clr-namespace:HealthPetApp.Extensions"
+             >
+
+    <VerticalStackLayout>
+        <!-- BANNER -->
+        <Border
+                    Background="#63cfd2"
+                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 20"
+                    HeightRequest="180">
+
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="1.5*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Texto -->
+                <VerticalStackLayout
+                            Padding="20"
+                            Spacing="10"
+                            VerticalOptions="Center">
+
+                    <Label Text="Join pet lovers community"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       TextColor="#fff"/>
+
+                    <Button Text="Join"
+                        WidthRequest="100"
+                        HeightRequest="40"
+                        CornerRadius="20"
+                        BackgroundColor="#bde4a3"
+                        TextColor="#000"/>
+                </VerticalStackLayout>
+
+                <!-- Imagem do Pet -->
+                <Image Grid.Column="1"
+                           Source="dogcatbanner.png"
+                           Aspect="AspectFit"
+                           Margin="0,20,0,0"/>
+            </Grid>
+
+        </Border>
+
+
+        <HorizontalStackLayout Margin="0,40,0,0" Spacing="20" HorizontalOptions="Center">
+            <!-- Dog -->
+            <Grid>
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding NavigatePetDetailCommand}"/>
+                </Grid.GestureRecognizers>
+                <!-- O CARD -->
+                <Border
+                            Background="#00b7b6"
+                            StrokeThickness="0"
+                            WidthRequest="140"
+                            HeightRequest="90"
+                            StrokeShape="RoundRectangle 15"
+                            Padding="15"
+                            VerticalOptions="End">
+
+                    <HorizontalStackLayout HorizontalOptions="Start">
+                        <Label Text="Dog"
+                                    FontSize="16"
+                                    FontAttributes="Bold"/>
+                    </HorizontalStackLayout>
+
+                </Border>
+                <!-- IMAGEM QUE VAZA PARA FORA -->
+                <Image
+                             Source="dogpuppy.png"
+                             HeightRequest="100"
+                             VerticalOptions="Start"
+                             Margin="0,-20,0,0"
+                             HorizontalOptions="End"
+                             />
+            </Grid>
+
+            <!-- Cat -->
+            <Grid>
+                <!-- O CARD -->
+                <Border
+                            Background="#c8e194"
+                            StrokeThickness="0"
+                            WidthRequest="140"
+                            HeightRequest="90"
+                            StrokeShape="RoundRectangle 15"
+                            Padding="15"
+                            VerticalOptions="End">
+
+                    <HorizontalStackLayout HorizontalOptions="Start">
+                        <Label Text="Cat"
+                                    FontSize="16"
+                                    FontAttributes="Bold"/>
+                    </HorizontalStackLayout>
+
+                </Border>
+                <!-- IMAGEM QUE VAZA PARA FORA -->
+                <Image
+                             Source="catpuppy.png"
+                             HeightRequest="100"
+                             VerticalOptions="Start"
+                             Margin="0,-20,0,0"
+                             HorizontalOptions="End"
+                             />
+            </Grid>
+
+        </HorizontalStackLayout>
+
+
+        <!-- SERVICES -->
+        <VerticalStackLayout Margin="0,30,0,0" Spacing="15">
+
+            <Label Text="Our Services"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           TextColor="#333"/>
+
+            <Grid ColumnSpacing="15" RowSpacing="15">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Elementos do grid -->
+                <!-- Linha 1 -->
+                <Border Grid.Row="0" Grid.Column="0"
+                            Background="#FFFFFF"
+                            StrokeThickness="0"
+                            Padding="15"
+                            StrokeShape="RoundRectangle 15">
+                    <VerticalStackLayout HorizontalOptions="Center" Spacing="8">
+                        <Image 
+                                    Source="{FontImageSource Glyph={x:Static icons:MaterialIconAlias.Ecg_heart}, 
+                                    FontFamily=MaterialIcon, 
+                                    Color=#909090,
+                                    Size=32}" />
+                        <Label Text="Daycare" FontSize="14"/>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Grid.Row="0" Grid.Column="1"
+                    Background="#FFFFFF"
+                    StrokeThickness="0"
+                    Padding="15"
+                    StrokeShape="RoundRectangle 15">
+                    <VerticalStackLayout HorizontalOptions="Center" Spacing="8">
+                        <Image 
+    Source="{FontImageSource Glyph={x:Static icons:MaterialIconAlias.Self_care}, 
+    FontFamily=MaterialIcon, 
+    Color=#909090,
+    Size=32}" />
+                        <Label Text="Grooming" FontSize="14"/>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Grid.Row="0" Grid.Column="2"
+                    Background="#FFFFFF"
+                    StrokeThickness="0"
+                    Padding="15"
+                    StrokeShape="RoundRectangle 15">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding NavigatePetsCommand}"/>
+                    </Border.GestureRecognizers>
+                    <VerticalStackLayout HorizontalOptions="Center" Spacing="8">
+                        <Image 
+                            Source="{FontImageSource Glyph={x:Static icons:MaterialIconAlias.Syringe}, 
+                            FontFamily=MaterialIcon, 
+                            Color=#909090,
+                            Size=32}" />
+                        <Label Text="Vaccination" FontSize="14"/>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Linha 2 -->
+                <Border Grid.Row="1" Grid.Column="0"
+                    Background="#FFFFFF"
+                    StrokeThickness="0"
+                    Padding="15"
+                    StrokeShape="RoundRectangle 15">
+                    <VerticalStackLayout HorizontalOptions="Center" Spacing="8">
+                        <Image 
+Source="{FontImageSource Glyph={x:Static icons:MaterialIconAlias.Medical_mask}, 
+FontFamily=MaterialIcon, 
+Color=#909090,
+Size=32}" />
+                        <Label Text="Operations" FontSize="14"/>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Grid.Row="1" Grid.Column="1"
+                    Background="#FFFFFF"
+                    StrokeThickness="0"
+                    Padding="15"
+                    StrokeShape="RoundRectangle 15">
+                    <VerticalStackLayout HorizontalOptions="Center" Spacing="8">
+                        <Image 
+Source="{FontImageSource Glyph={x:Static icons:MaterialIconAlias.Pet_supplies}, 
+FontFamily=MaterialIcon, 
+Color=#909090,
+Size=32}" />
+                        <Label Text="Vet" FontSize="14"/>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Grid.Row="1" Grid.Column="2"
+                    Background="#FFFFFF"
+                    StrokeThickness="0"
+                    Padding="15"
+                    StrokeShape="RoundRectangle 15">
+                    <VerticalStackLayout HorizontalOptions="Center" Spacing="8">
+                        <Image 
+Source="{FontImageSource Glyph={x:Static icons:MaterialIconAlias.Pest_control}, 
+FontFamily=MaterialIcon, 
+Color=#909090,
+Size=32}" />
+                        <Label Text="Anti-Bite" FontSize="14"/>
+                    </VerticalStackLayout>
+                </Border>
+
+            </Grid>
+
+        </VerticalStackLayout>
+    </VerticalStackLayout>
+
+</ContentView>
