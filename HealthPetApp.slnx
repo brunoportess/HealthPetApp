@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="HealthPetApp/HealthPetApp.csproj">
+    <Deploy />
+  </Project>
+</Solution>
