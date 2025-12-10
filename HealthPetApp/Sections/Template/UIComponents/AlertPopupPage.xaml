@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage
+    x:Class="HealthPetApp.Sections.Popups.UIComponents.AlertPopupPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:animations="clr-namespace:Mopups.Animations;assembly=Mopups"
+    xmlns:pages="clr-namespace:Mopups.Pages;assembly=Mopups"
+    Title="AlertPopupPage"
+    Background="#80000000">
+
+    <pages:PopupPage.Animation>
+        <animations:ScaleAnimation
+            DurationIn="400"
+            DurationOut="300"
+            EasingIn="SinOut"
+            EasingOut="SinIn"
+            HasBackgroundAnimation="True"
+            PositionIn="Center"
+            PositionOut="Center"
+            ScaleIn="1.2"
+            ScaleOut="0.8" />
+    </pages:PopupPage.Animation>
+
+    <Border
+        Margin="25,0"
+        Padding="20"
+        HorizontalOptions="Center"
+        StrokeShape="RoundRectangle 30,30,30,30"
+        VerticalOptions="Center">
+        <StackLayout Padding="20,0">
+
+            <Border
+                x:Name="corFundoImagem"
+                Margin="0,0,0,10"
+                Padding="0"
+                HeightRequest="60"
+                HorizontalOptions="Center"
+                StrokeShape="RoundRectangle 50,50,50,50"
+                StrokeThickness="2"
+                WidthRequest="60">
+                <Label
+                    x:Name="imagemPopup"
+                    FontFamily="fa-regular"
+                    FontSize="30"
+                    HorizontalOptions="CenterAndExpand"
+                    VerticalOptions="CenterAndExpand" />
+            </Border>
+
+            <Label
+                x:Name="labelTituloMensagem"
+                HorizontalOptions="Center" />
+
+            <Label
+                x:Name="labelCorpoMensagem"
+                HorizontalOptions="Center" />
+
+            <Button
+                Margin="0,20,0,0"
+                Clicked="FecharPopupClicked"
+                HorizontalOptions="Center"
+                MinimumWidthRequest="200"
+                Text="Fechar" />
+        </StackLayout>
+    </Border>
+</pages:PopupPage>

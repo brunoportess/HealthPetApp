@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage
+    x:Class="HealthPetApp.Sections.Popups.UICOmponents.BusyPopupPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:pages="clr-namespace:Mopups.Pages;assembly=Mopups"
+    Title="BusyPopupPage"
+    Background="#80000000"
+    CloseWhenBackgroundIsClicked="False">
+
+    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+        <ActivityIndicator IsRunning="True" Color="#fff" />
+    </StackLayout>
+</pages:PopupPage>
