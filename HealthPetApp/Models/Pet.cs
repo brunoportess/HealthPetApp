@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -20,11 +21,17 @@ namespace HealthPetApp.Models
         public string GenderIcon => Gender == "Male" ? "♂" : "♀";
     }
 
-    public class PetType
+    public class PetType : ObservableObject
     {
         public string Name { get; set; }
         public string Icon { get; set; }
         public string FilterValue { get; set; }
-        public bool IsSelected { get; set; } = false;
+        //public bool IsSelected { get; set; } = false;
+        private bool _isSelected;
+        public bool IsSelected
+        {
+            get => _isSelected;
+            set => SetProperty(ref _isSelected, value);
+        }
     }
 }

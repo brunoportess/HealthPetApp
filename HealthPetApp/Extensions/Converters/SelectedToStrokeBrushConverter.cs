@@ -12,7 +12,7 @@ namespace HealthPetApp.Extensions.Converters
             bool isSelected = (bool)value;
 
             return isSelected
-                ? new SolidColorBrush(Color.FromArgb("#FF7F00")) // cor do stroke quando selecionado
+                ? new SolidColorBrush(Color.FromArgb("#000")) // cor do stroke quando selecionado
                 : new SolidColorBrush(Colors.Transparent);
         }
 

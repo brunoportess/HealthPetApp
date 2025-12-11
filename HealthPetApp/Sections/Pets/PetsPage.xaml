@@ -21,7 +21,7 @@
         <CollectionView Grid.Row="1"
                         ItemsSource="{Binding PetTypes}"
                         SelectionMode="Single"
-                        SelectedItem="{Binding SelectedPetType}"
+                        SelectedItem="{Binding SelectedPetType, Mode=TwoWay}"
                         HeightRequest="100"
                         Margin="10, 5, 10, 10">
             <CollectionView.Resources>
@@ -34,7 +34,26 @@
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:PetType">
-                    <StackLayout Padding="5">
+                    <StackLayout Padding="5" x:Name="RootLayout">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter TargetName="RootLayout"
+                                    Property="BackgroundColor"
+                                    Value="Transparent" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Selected">
+                                    <VisualState.Setters>
+                                        <!-- Mesma cor do Normal = sem highlight -->
+                                        <Setter TargetName="RootLayout"
+                                    Property="BackgroundColor"
+                                    Value="Transparent" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
                         <Border 
                             StrokeShape="RoundRectangle 15"
                                HeightRequest="70"
@@ -65,6 +84,7 @@
                         ItemsSource="{Binding FilteredPets}"
                         SelectedItem="{Binding SelectedPet}"
                         SelectionChangedCommand="{Binding PetDetailNavigateCommand}"
+                        ItemSizingStrategy="MeasureFirstItem"
                         Margin="10, 0">
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="15" />

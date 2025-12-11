@@ -82,7 +82,7 @@ namespace HealthPetApp.Sections.Pets
                 _selectedPetType = value;
 
                 OnPropertyChanged(nameof(SelectedPetType));
-
+                OnPropertyChanged(nameof(PetTypes));
                 FilterPets();
             }
         }
