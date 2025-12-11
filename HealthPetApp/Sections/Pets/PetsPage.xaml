@@ -6,6 +6,7 @@
              xmlns:vm="clr-namespace:HealthPetApp.Sections.Pets"
              xmlns:model="clr-namespace:HealthPetApp.Models"
              x:DataType="vm:PetsPageViewModel"
+             xmlns:icons="clr-namespace:HealthPetApp.Extensions"
              >
     <Grid RowDefinitions="Auto, Auto, *">
 
@@ -23,6 +24,11 @@
                         SelectedItem="{Binding SelectedPetType}"
                         HeightRequest="100"
                         Margin="10, 5, 10, 10">
+            <CollectionView.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="BackgroundColor" Value="Transparent" />
+                </Style>
+            </CollectionView.Resources>
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Horizontal" ItemSpacing="10" />
             </CollectionView.ItemsLayout>
@@ -34,8 +40,8 @@
                                HeightRequest="70"
                                WidthRequest="70"
                                Padding="0"
-                            Stroke="Black"
-                               BackgroundColor="{Binding IsSelected, Converter={StaticResource SelectedToColorConverter}}">
+                                Stroke="{Binding IsSelected, Converter={StaticResource SelectedToStrokeBrushConverter}}"
+                            >
                             <StackLayout VerticalOptions="Center"
                                          BackgroundColor="#fff"
                                          HorizontalOptions="Center"
@@ -55,8 +61,10 @@
         </CollectionView>
 
         <CollectionView Grid.Row="2"
+                        SelectionMode="Single"
                         ItemsSource="{Binding FilteredPets}"
-                        
+                        SelectedItem="{Binding SelectedPet}"
+                        SelectionChangedCommand="{Binding PetDetailNavigateCommand}"
                         Margin="10, 0">
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="15" />
@@ -101,13 +109,16 @@
                                        TextColor="#666666" />
 
                                 <Grid Margin="0, 5, 0, 0" ColumnDefinitions="Auto, *">
-                                    <Image Grid.Column="0"
-                                           Source="map_pin_icon"
-                                           HeightRequest="15"
-                                           WidthRequest="15"
-                                           Aspect="AspectFit" />
+                                    <Image 
+                                        Aspect="AspectFit"
+                                            x:Name="PetIcon"
+                                            Source="{FontImageSource Glyph={x:Static icons:MaterialIconAlias.Female}, 
+                                            FontFamily=MaterialIcon, 
+                                            Color=#909090,
+                                            Size=16}" 
+                                        />
                                     <Label Grid.Column="1"
-                                           Text="{Binding Distance, StringFormat='Distância: {0}km'}"
+                                           Text="{Binding Gender, StringFormat='Gender: {0}'}"
                                            FontSize="Small"
                                            TextColor="#666666"
                                            VerticalOptions="Center" />

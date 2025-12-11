@@ -1,28 +1,41 @@
-﻿using HealthPetApp.Models;
+﻿using CommunityToolkit.Mvvm.Input;
+using HealthPetApp.Models;
+using HealthPetApp.Sections.Pets.Detail;
+using HealthPetApp.Services.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Text;
+using System.Windows.Input;
 
 namespace HealthPetApp.Sections.Pets
 {
-    internal partial class PetsPageViewModel : BasePageViewModel
+    internal partial class PetsPageViewModel : BasePageViewModel, ISoftNavigable
     {
         // Lista completa de todos os pets
         private ObservableCollection<Pet> AllPets { get; set; }
 
-        // Lista que o CollectionView exibe (a ser filtrada)
-        private ObservableCollection<Pet> _filteredPets;
+        private ObservableCollection<Pet> _filteredPets = [];
         public ObservableCollection<Pet> FilteredPets
         {
             get => _filteredPets;
             set { _filteredPets = value; OnPropertyChanged(); }
         }
 
-        // Carrossel de tipos de pets
-        public ObservableCollection<PetType> PetTypes { get; set; }
+        private ObservableCollection<PetType> _petTypes = [];
+        public ObservableCollection<PetType> PetTypes
+        {
+            get => _petTypes;
+            set
+            {
+                _petTypes = value;
+                OnPropertyChanged();
+            }
+        }
 
         // Propriedade para a SearchBar
+        private CancellationTokenSource _searchCts;
         private string _searchText;
         public string SearchText
         {
@@ -31,7 +44,16 @@ namespace HealthPetApp.Sections.Pets
             {
                 _searchText = value;
                 OnPropertyChanged();
-                FilterPets(); // Chama a filtragem ao digitar
+
+                _searchCts?.Cancel();
+                _searchCts = new CancellationTokenSource();
+
+                _ = Task.Delay(200, _searchCts.Token)
+                        .ContinueWith(t =>
+                        {
+                            if (!t.IsCanceled)
+                                MainThread.BeginInvokeOnMainThread(FilterPets);
+                        });
             }
         }
 
@@ -46,67 +68,76 @@ namespace HealthPetApp.Sections.Pets
             }
         }
 
-
-        // Propriedade para o item selecionado no carrossel
-        private PetType _selectedPetType;
-        public PetType SelectedPetType
+        private PetType? _selectedPetType = null;
+        public PetType? SelectedPetType
         {
             get => _selectedPetType;
             set
             {
-                if (_selectedPetType != value)
-                {
-                    // Limpa o estado 'IsSelected' do anterior
-                    if (_selectedPetType != null)
-                    {
-                        _selectedPetType.IsSelected = false;
-                    }
+                if (_selectedPetType == value) return;
 
-                    _selectedPetType = value;
+                _selectedPetType?.IsSelected = false;
+                value?.IsSelected = true;
 
-                    // Define o estado 'IsSelected' do novo
-                    if (_selectedPetType != null)
-                    {
-                        _selectedPetType.IsSelected = true;
-                    }
+                _selectedPetType = value;
 
-                    OnPropertyChanged();
-                    FilterPets(); // Chama a filtragem ao selecionar
-                }
+                OnPropertyChanged(nameof(SelectedPetType));
+
+                FilterPets();
+            }
+        }
+
+
+        private Pet? _selectedPet = null;
+        public Pet? SelectedPet
+        {
+            get => _selectedPet;
+            set
+            {
+                _selectedPet = value;
+                OnPropertyChanged();
             }
         }
 
         public PetsPageViewModel()
         {
-            //SearchText = "aaaaaaa";
-            // 1. Carregar dados (Exemplo)
-            LoadData();
+            //LoadData();
+            //FilteredPets = AllPets;
+        }
 
-            // 2. Inicializa a lista filtrada com todos os pets
-            FilteredPets = AllPets;
+        public override async Task Initialize(object args = null)
+        {
+            if (AllPets == null)
+            {
+                LoadData();
+                FilterPets();
+            }
+        }
 
-            // 3. Seleciona o primeiro filtro como ativo ("Dogs" na imagem)
-            SelectedPetType = PetTypes.FirstOrDefault();
+
+        public IAsyncRelayCommand PetDetailNavigateCommand => new AsyncRelayCommand(PetDetailNavigate);
+        private async Task PetDetailNavigate()
+        {
+            if (SelectedPet == null) return;
+            await NavigationHelper.Navigate<PetDetailPageViewModel>(SelectedPet);
         }
 
         private void LoadData()
         {
             // Dados de Exemplo
-            AllPets = new ObservableCollection<Pet>
-            {
-                new Pet { Name = "Chihuahua", Type = "Dog", Origin = "Mexico", Age = 3, Distance = 3.6, ImageUrl = "dogpuppy.png", Gender = "Male", CardBackgroundColor = "#F5B7B1" },
-                new Pet { Name = "Pug", Type = "Dog", Origin = "China", Age = 2, Distance = 4.5, ImageUrl = "catpuppy.png", Gender = "Male", CardBackgroundColor = "#F7E0C0" },
-                // Adicione mais pets
-            };
+            AllPets =
+            [
+                new() { Name = "Bubble", Type = "Dog", Origin = "Mexico", Age = 3, Distance = 3.6, ImageUrl = "dogpuppy.png", Gender = "Male", CardBackgroundColor = "#F5B7B1" },
+                new() { Name = "Minie", Type = "Cat", Origin = "China", Age = 2, Distance = 4.5, ImageUrl = "catpuppy.png", Gender = "Female", CardBackgroundColor = "#F7E0C0" },
+            ];
 
-            PetTypes = new ObservableCollection<PetType>
-            {
+            PetTypes =
+            [
                 new() { Name = "Dogs", Icon = "headdog.png", FilterValue = "Dog" },
                 new() { Name = "Cats", Icon = "headcat.png", FilterValue = "Cat" },
                 new() { Name = "Parrots", Icon = "headparrot.png", FilterValue = "Parrot" },
                 new() { Name = "Bunnies", Icon = "headbunnie.png", FilterValue = "Bunny" }
-                // Adicione outros tipos de pets
-            };
+            ];
         }
 
         // Lógica de Filtragem Centralizada
@@ -127,7 +158,20 @@ namespace HealthPetApp.Sections.Pets
             }
 
             // Atualiza a lista exibida na CollectionView
-            FilteredPets = new ObservableCollection<Pet>(petsQuery);
+            FilteredPets.Clear();
+            foreach (var item in petsQuery)
+                FilteredPets.Add(item);
+        }
+
+        public void OnNavigatedTo()
+        {
+            SelectedPet = null;
+            SelectedPetType = null;
+        }
+
+        public void OnNavigatedFrom()
+        {
+            Debug.WriteLine("throw new NotImplementedException()");
         }
     }
 }
