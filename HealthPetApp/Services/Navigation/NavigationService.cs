@@ -51,27 +51,78 @@ namespace HealthPetApp.Services.Navigation
         {
             var viewObj = CreateAndBindPage(viewModelType);
 
-            //
-            // 1️⃣ Se for modal (Page de verdade)
-            //
             if (viewObj is Page modalPage)
             {
+                var vm = (BasePageViewModel)modalPage.BindingContext;
+
+                // CHAMA INITIALIZE AQUI
+                await vm.Initialize(parameter);
+
                 await Navigation.PushModalAsync(modalPage, true);
                 return;
             }
 
-            //
-            // 2️⃣ Se for uma página principal de menu inferior → Header MAIN
-            //
+            bool isMainPage =
+                viewModelType == typeof(HomePageViewModel) ||
+                viewModelType == typeof(PetsPageViewModel);
+
+            if (viewObj is ContentView view)
+            {
+                var vm = (BasePageViewModel)view.BindingContext;
+
+                if (isMainPage)
+                {
+                    RootPage.Instance.SetHeaderMode(HeaderMode.Main);
+                    RootPage.Instance.ClearSoftStack();
+
+                    //if (RootPage.Instance.BodyContent is ContentView oldView && oldView.BindingContext is ISoftNavigable oldVm)
+                    //{
+                    //    oldVm.OnNavigatedFrom();
+                    //}
+
+                    RootPage.Instance.BodyContent = view;
+
+                    //if (view.BindingContext is ISoftNavigable newVm)
+                    //{
+                    //    newVm.OnNavigatedTo();
+                    //}
+
+                    // CHAMA INITIALIZE PARA PÁGINAS PRINCIPAIS
+                    await vm.Initialize(parameter);
+                }
+                else
+                {
+                    RootPage.Instance.SetHeaderMode(HeaderMode.Secondary);
+
+                    if (RootPage.Instance.BodyContent != null)
+                        RootPage.Instance.PushSoftStack(RootPage.Instance.BodyContent);
+
+                    RootPage.Instance.BodyContent = view;
+
+                    // CHAMA INITIALIZE PARA PÁGINAS INTERNAS
+                    await vm.Initialize(parameter);
+                }
+            }
+        }
+
+
+        async Task InternalNavigateToAsync2(Type viewModelType, object? parameter = null)
+        {
+            var viewObj = CreateAndBindPage(viewModelType);
+
+            if (viewObj is Page modalPage)
+            {
+                await Navigation.PushModalAsync(modalPage, true);
+                //await ((BasePageViewModel)modalPage.BindingContext).Initialize(parameter);
+                return;
+            }
+
             bool isMainPage =
                 viewModelType == typeof(HomePageViewModel) ||
                 viewModelType == typeof(PetsPageViewModel)
                 // caso tenha mais páginas principais do footer, inclua aqui
                 ;
 
-            //
-            // 3️⃣ Conteúdo interno (ContentView)
-            //
             if (viewObj is ContentView view)
             {
                 if (isMainPage)
@@ -84,6 +135,7 @@ namespace HealthPetApp.Services.Navigation
 
                     // Troca o conteúdo
                     RootPage.Instance.BodyContent = view;
+                    //await ((BasePageViewModel)view.BindingContext).Initialize(parameter);
                 }
                 else
                 {

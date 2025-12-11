@@ -1,3 +1,5 @@
+﻿using HealthPetApp.Services.Navigation;
+
 namespace HealthPetApp.Sections.Template;
 
 public partial class RootPage : ContentPage
@@ -43,14 +45,41 @@ public partial class RootPage : ContentPage
         _softStack.Push(view);
     }
 
-    public void SoftGoBack()
+    //public void SoftGoBack()
+    //{
+    //    if (_softStack.Count == 0)
+    //        return;
+
+    //    var previous = _softStack.Pop();
+    //    BodyContent = previous;
+    //}
+
+    public async void SoftGoBack()
     {
         if (_softStack.Count == 0)
             return;
 
+        var current = BodyContent;
         var previous = _softStack.Pop();
+
+        // altera o conteúdo
         BodyContent = previous;
+
+        // força o MAUI a redesenhar imediatamente
+        //await Task.Yield();
+        //this.ForceLayout();
+
+        // lifecycle depois
+        if (current is View currentView &&
+            currentView.BindingContext is ISoftNavigable currentVm)
+            currentVm.OnNavigatedFrom();
+
+        if (previous is View previousView &&
+            previousView.BindingContext is ISoftNavigable previousVm)
+            previousVm.OnNavigatedTo();
     }
+
+
 
     public void ClearSoftStack()
     {

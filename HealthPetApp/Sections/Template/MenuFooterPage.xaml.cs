@@ -14,15 +14,7 @@ public partial class MenuFooterPage : ContentView
             typeof(MenuFooterPage),
             BottomTab.Home,
             propertyChanged: OnSelectedTabChanged);
-
-    //public static readonly BindableProperty SelectedTabProperty =
-    //    BindableProperty.Create(
-    //        nameof(SelectedTab),
-    //        typeof(BottomTab),
-    //        typeof(MenuFooterPage),
-    //        BottomTab.Home,
-    //        propertyChanged: OnSelectedTabChanged);
-
+    
     public BottomTab SelectedTab
     {
         get => (BottomTab)GetValue(SelectedTabProperty);
@@ -52,11 +44,11 @@ public partial class MenuFooterPage : ContentView
 
         // Pets
         ((FontImageSource)PetIcon.Source).Color =
-            SelectedTab == BottomTab.Students ? activeColor : inactiveColor;
+            SelectedTab == BottomTab.Pets ? activeColor : inactiveColor;
 
         // Search
         ((FontImageSource)SearchIcon.Source).Color =
-            SelectedTab == BottomTab.Formulas ? activeColor : inactiveColor;
+            SelectedTab == BottomTab.Stores ? activeColor : inactiveColor;
 
         // Profile
         ((FontImageSource)ProfileIcon.Source).Color =
@@ -83,9 +75,9 @@ public partial class MenuFooterPage : ContentView
         //UpdateTabColors();
     }
 
-    private async void GoToStudentsPage(object sender, TappedEventArgs e)
+    private async void GoToPetsPage(object sender, TappedEventArgs e)
     {
-        SelectedTab = BottomTab.Students;
+        SelectedTab = BottomTab.Pets;
         //await NavigationService.Current.Navigate<PetsPageViewModel>();
         //RootPage.Instance.BodyContent = new PetsPage()
         //{
@@ -96,9 +88,9 @@ public partial class MenuFooterPage : ContentView
         //UpdateTabColors();
     }
 
-    private async void GoToFormulasPage(object sender, TappedEventArgs e)
+    private async void GoToStoresPage(object sender, TappedEventArgs e)
     {
-        SelectedTab = BottomTab.Formulas;
+        SelectedTab = BottomTab.Stores;
         // Navegar depois
     }
 

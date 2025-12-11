@@ -43,7 +43,7 @@
             <!-- PETS -->
             <Grid Grid.Column="1">
                 <Grid.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="GoToStudentsPage"/>
+                    <TapGestureRecognizer Tapped="GoToPetsPage"/>
                 </Grid.GestureRecognizers>
 
                 <VerticalStackLayout HorizontalOptions="Center" Spacing="4" Margin="0,8">
@@ -60,17 +60,17 @@
             
             <Grid Grid.Column="2">
                 <Grid.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="GoToFormulasPage"/>
+                    <TapGestureRecognizer Tapped="GoToStoresPage"/>
                 </Grid.GestureRecognizers>
 
                 <VerticalStackLayout HorizontalOptions="Center" Spacing="4" Margin="0,8">
                     <Image 
                         x:Name="SearchIcon"
-                        Source="{FontImageSource Glyph={x:Static icons:MaterialIconAlias.Search}, 
+                        Source="{FontImageSource Glyph={x:Static icons:MaterialIconAlias.Storefront}, 
                         FontFamily=MaterialIcon, 
                         Color=#909090,
                         Size=32}" />
-                    <Label x:Name="SearchText" Text="Fórmulas" FontSize="11" TextColor="#909090"/>
+                    <Label x:Name="SearchText" Text="Stores" FontSize="11" TextColor="#909090"/>
                 </VerticalStackLayout>
             </Grid>
 

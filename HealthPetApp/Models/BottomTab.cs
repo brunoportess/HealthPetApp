@@ -7,8 +7,8 @@ namespace HealthPetApp.Models
     public enum BottomTab
     {
         Home,
-        Students,
-        Formulas,
+        Pets,
+        Stores,
         Config
     }
 }
