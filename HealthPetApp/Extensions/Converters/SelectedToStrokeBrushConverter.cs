@@ -13,7 +13,7 @@ namespace HealthPetApp.Extensions.Converters
 
             return isSelected
                 ? new SolidColorBrush(Color.FromArgb("#000")) // cor do stroke quando selecionado
-                : new SolidColorBrush(Colors.Transparent);
+                : new SolidColorBrush(Color.FromArgb("#CCC"));
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

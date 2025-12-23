@@ -3,153 +3,123 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="HealthPetApp.Sections.Pets.PetsPage"
              xmlns:local="clr-namespace:HealthPetApp.Sections.Template"
+             xmlns:resource="clr-namespace:HealthPetApp.Extensions.Converters"
              xmlns:vm="clr-namespace:HealthPetApp.Sections.Pets"
              xmlns:model="clr-namespace:HealthPetApp.Models"
              x:DataType="vm:PetsPageViewModel"
              xmlns:icons="clr-namespace:HealthPetApp.Extensions"
              >
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <resource:SelectedToStrokeBrushConverter x:Key="SelectedToStrokeBrushConverter" />
+        </ResourceDictionary>
+    </ContentView.Resources>
     <Grid RowDefinitions="Auto, Auto, *">
-
-        <SearchBar Grid.Row="0"
-                   Placeholder="Filtrar por nome do pet..."
+        <Border Grid.Row="0" StrokeShape="RoundRectangle 20" BackgroundColor="White" Margin="10,5">
+            <SearchBar Placeholder="Filtrar por nome do pet..."
                    Text="{Binding SearchText}"
-                   Margin="10, 5"
-                   BackgroundColor="White"
                    PlaceholderColor="#A0A0A0"
                    TextColor="#333333" />
+        </Border>
 
         <CollectionView Grid.Row="1"
-                        ItemsSource="{Binding PetTypes}"
-                        SelectionMode="Single"
-                        SelectedItem="{Binding SelectedPetType, Mode=TwoWay}"
-                        HeightRequest="100"
-                        Margin="10, 5, 10, 10">
-            <CollectionView.Resources>
-                <Style TargetType="Border">
-                    <Setter Property="BackgroundColor" Value="Transparent" />
-                </Style>
-            </CollectionView.Resources>
+                    ItemsSource="{Binding PetTypes}"
+                    SelectionMode="Single"
+                    SelectedItem="{Binding SelectedPetType, Mode=TwoWay}"
+                    HeightRequest="110"
+                    HorizontalScrollBarVisibility="Never">
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Horizontal" ItemSpacing="10" />
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:PetType">
-                    <StackLayout Padding="5" x:Name="RootLayout">
+                    <VerticalStackLayout Padding="5" x:Name="RootLayout" Spacing="5" WidthRequest="80">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal">
                                     <VisualState.Setters>
                                         <Setter TargetName="RootLayout"
-                                    Property="BackgroundColor"
-                                    Value="Transparent" />
+                                            Property="BackgroundColor"
+                                            Value="Transparent" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Selected">
                                     <VisualState.Setters>
                                         <!-- Mesma cor do Normal = sem highlight -->
                                         <Setter TargetName="RootLayout"
-                                    Property="BackgroundColor"
-                                    Value="Transparent" />
+                                                Property="BackgroundColor"
+                                                Value="Transparent" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Border 
-                            StrokeShape="RoundRectangle 15"
-                               HeightRequest="70"
-                               WidthRequest="70"
-                               Padding="0"
+                        <Border StrokeShape="RoundRectangle 15"
+                            HeightRequest="70"
+                            WidthRequest="70"
+                            StrokeThickness="1"
                                 Stroke="{Binding IsSelected, Converter={StaticResource SelectedToStrokeBrushConverter}}"
                             >
-                            <StackLayout VerticalOptions="Center"
-                                         BackgroundColor="#fff"
-                                         HorizontalOptions="Center"
-                                         Spacing="2">
-                                <Image Source="{Binding Icon}"
-                                       Aspect="AspectFit"
-                                       Margin="0, 5, 0, 0"/>
-                            </StackLayout>
+                            <Image Source="{Binding Icon}" 
+                               Aspect="AspectFit" 
+                               Margin="10"/>
                         </Border>
                         <Label Text="{Binding Name}"
-                               HorizontalTextAlignment="Center"
-                               FontSize="Small"
-                               Margin="0, 0, 0, 5"/>
-                    </StackLayout>
+                           HorizontalTextAlignment="Center"
+                           FontSize="Caption" />
+                    </VerticalStackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
 
         <CollectionView Grid.Row="2"
-                        SelectionMode="Single"
-                        ItemsSource="{Binding FilteredPets}"
-                        SelectedItem="{Binding SelectedPet}"
-                        SelectionChangedCommand="{Binding PetDetailNavigateCommand}"
-                        ItemSizingStrategy="MeasureFirstItem"
-                        Margin="10, 0">
+                    ItemsSource="{Binding FilteredPets}"
+                    SelectionMode="Single"
+                    SelectedItem="{Binding SelectedPet}"
+                    SelectionChangedCommand="{Binding PetDetailNavigateCommand}"
+                    ItemSizingStrategy="MeasureFirstItem"
+                    Margin="10, 0">
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="15" />
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:Pet">
-                    <Grid 
-                        HeightRequest="150" ColumnDefinitions="150, *">
-                        <Border Grid.Column="0"
-                               StrokeShape="RoundRectangle 15"
-                               Padding="0"
-                               Margin="0"
+                        <!--<Border Grid.Column="0" 
+                                BackgroundColor="#fff"
+                                StrokeShape="RoundRectangle 15" 
+                                Stroke="Transparent"
+                                ZIndex="1"
                                 >
-                            <Image Source="{Binding ImageUrl}"
-                                   Aspect="AspectFill" />
-                        </Border>
+                            <Image Source="{Binding ImageUrl}" Aspect="AspectFill" />
+                        </Border>-->
 
-                        <Border Grid.Column="1"
-                               StrokeShape="RoundRectangle 15"
-                               Margin="-20, 0, 0, 0"
-                               Padding="20, 10, 10, 10"
-                               BackgroundColor="White"
-                               
+                        <Border 
+                            StrokeShape="RoundRectangle 15"
+                            Margin="0, 10, 0, 10" 
+                            Padding="15, 10, 10, 10"
+                                Stroke="Transparent"
+                            BackgroundColor="White">
+                            <HorizontalStackLayout
                                 >
-                            <StackLayout Spacing="5">
-                                <Grid ColumnDefinitions="*, Auto">
-                                    <Label Grid.Column="0"
-                                           Text="{Binding Name}"
-                                           FontSize="Title"
-                                           FontAttributes="Bold"
-                                           TextColor="#333333" />
-                                    <Label Grid.Column="1"
-                                           Text="{Binding GenderIcon}"
-                                           FontSize="Medium"
-                                           TextColor="#A0A0A0" />
-                                </Grid>
-                                <Label Text="{Binding Origin, StringFormat='Origem: {0}'}"
-                                       FontSize="Small"
-                                       TextColor="#666666" />
-                                <Label Text="{Binding Details, StringFormat='{0}, {1}'}"
-                                       FontSize="Small"
-                                       TextColor="#666666" />
+                                <Image Source="{Binding ImageUrl}" 
+                                       WidthRequest="100" Aspect="AspectFit" />
+                                <VerticalStackLayout Padding="20,0,0,0" Spacing="2">
+                                    <Grid ColumnDefinitions="*, Auto">
+                                        <Label Text="{Binding Name}" FontAttributes="Bold" FontSize="18" TextColor="#333333" />
+                                        <Label Grid.Column="1" Text="{Binding GenderIcon}" TextColor="#A0A0A0" />
+                                    </Grid>
 
-                                <Grid Margin="0, 5, 0, 0" ColumnDefinitions="Auto, *">
-                                    <Image 
-                                        Aspect="AspectFit"
-                                            x:Name="PetIcon"
-                                            Source="{FontImageSource Glyph={x:Static icons:MaterialIconAlias.Female}, 
-                                            FontFamily=MaterialIcon, 
-                                            Color=#909090,
-                                            Size=16}" 
-                                        />
-                                    <Label Grid.Column="1"
-                                           Text="{Binding Gender, StringFormat='Gender: {0}'}"
-                                           FontSize="Small"
-                                           TextColor="#666666"
-                                           VerticalOptions="Center" />
-                                </Grid>
-                            </StackLayout>
+                                    <Label Text="{Binding Origin, StringFormat='Origem: {0}'}" FontSize="12" TextColor="#666666" />
+                                    <Label Text="{Binding Details, StringFormat='{0}, {1}'}" FontSize="12" TextColor="#666666" />
+
+                                    <HorizontalStackLayout Spacing="5" Margin="0,5,0,0">
+                                        <Image Source="{FontImageSource Glyph={x:Static icons:MaterialIconAlias.Female}, FontFamily=MaterialIcon, Color=#909090, Size=14}" />
+                                        <Label Text="{Binding Gender}" FontSize="12" TextColor="#666666" VerticalOptions="Center" />
+                                    </HorizontalStackLayout>
+                                </VerticalStackLayout>
+                            </HorizontalStackLayout>
                         </Border>
-
-                    </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-
     </Grid>
 </ContentView>

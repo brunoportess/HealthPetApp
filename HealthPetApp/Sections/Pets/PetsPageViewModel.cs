@@ -105,12 +105,16 @@ namespace HealthPetApp.Sections.Pets
             //FilteredPets = AllPets;
         }
 
+
         public override async Task Initialize(object args = null)
         {
             if (AllPets == null)
             {
-                LoadData();
-                FilterPets();
+                // Força a UI a renderizar a página antes de carregar os dados pesados
+                await Task.Yield();
+
+                LoadData(); //
+                FilterPets(); //
             }
         }
 
@@ -143,24 +147,23 @@ namespace HealthPetApp.Sections.Pets
         // Lógica de Filtragem Centralizada
         private void FilterPets()
         {
-            var petsQuery = AllPets.AsEnumerable();
+            // Criamos uma lista temporária para evitar múltiplas notificações de UI durante o loop
+            var filtered = AllPets.AsEnumerable();
 
-            // Filtro por Tipo (Carrossel)
             if (SelectedPetType != null)
-            {
-                petsQuery = petsQuery.Where(p => p.Type == SelectedPetType.FilterValue);
-            }
+                filtered = filtered.Where(p => p.Type == SelectedPetType.FilterValue);
 
-            // Filtro por Nome (SearchBar)
             if (!string.IsNullOrWhiteSpace(SearchText))
-            {
-                petsQuery = petsQuery.Where(p => p.Name.ToLower().Contains(SearchText.ToLower()));
-            }
+                filtered = filtered.Where(p => p.Name.Contains(SearchText, StringComparison.OrdinalIgnoreCase));
 
-            // Atualiza a lista exibida na CollectionView
-            FilteredPets.Clear();
-            foreach (var item in petsQuery)
-                FilteredPets.Add(item);
+            // Atualização em lote é mais eficiente
+            var newList = filtered.ToList();
+
+            MainThread.BeginInvokeOnMainThread(() => {
+                FilteredPets.Clear(); //
+                foreach (var item in newList)
+                    FilteredPets.Add(item); //
+            });
         }
 
         public void OnNavigatedTo()

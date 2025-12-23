@@ -1,7 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace HealthPetApp.Models
 {
@@ -21,7 +18,7 @@ namespace HealthPetApp.Models
         public string GenderIcon => Gender == "Male" ? "♂" : "♀";
     }
 
-    public class PetType : ObservableObject
+    public partial class PetType : ObservableObject
     {
         public string Name { get; set; }
         public string Icon { get; set; }
